@@ -5,13 +5,12 @@
         <q-icon name="mdi-view-dashboard" />
       </q-item-section>
       <q-item-section>
-        <q-item-label>Docs</q-item-label>
-        <q-item-label caption>quasar.dev</q-item-label>
+        <q-item-label>Dashboard</q-item-label>
+        <!-- <q-item-label caption>quasar.dev</q-item-label> -->
       </q-item-section>
     </q-item>
   </q-list>
 </template>
-
 <script>
 export default {
   name: "AppMenu",

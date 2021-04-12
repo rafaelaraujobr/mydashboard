@@ -19,7 +19,7 @@
     >
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="bg-grey-1">
       <q-resize-observer @resize="onResize" />
       <router-view />
     </q-page-container>
