@@ -1,12 +1,13 @@
 <template>
-  <q-header>
+  <q-header breveal bordered class="bg-white text-dark">
     <q-toolbar>
       <q-btn
         flat
         dense
         round
         aria-label="Menu"
-        icon="mdi-menu"
+        :icon="drawerLeft ? 'mdi-text' : 'mdi-menu'"
+        :size="$q.platform.is.mobile ? '1.1rem' : 'md'"
         @click="ActionSetDrawerLeft(!drawerLeft)"
       />
       <q-toolbar-title> mydashboard </q-toolbar-title>

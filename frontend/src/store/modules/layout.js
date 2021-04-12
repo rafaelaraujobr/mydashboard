@@ -1,14 +1,19 @@
 export default {
   namespaced: true,
   state: {
-    drawerLeft: false,
+    drawerLeft: true,
     drawerRight: false,
     miniStateLeft: true,
+    sizePanel: {
+      heigth: 0,
+      width: 0,
+    },
   },
   getters: {
     drawerLeft: (state) => state.drawerLeft,
     drawerRight: (state) => state.drawerRight,
     miniStateLeft: (state) => state.miniStateLeft,
+    sizePanel: (state) => state.sizePanel,
   },
   mutations: {
     SET_DRAWERLEFT(state, payload) {
@@ -20,6 +25,9 @@ export default {
     SET_MINISTATELEFT(state, payload) {
       state.miniStateLeft = payload;
     },
+    SET_SIZEPANEL(state, payload) {
+      state.sizePanel = payload;
+    },
   },
   actions: {
     ActionSetDrawerLeft({ commit }, payload) {
@@ -30,6 +38,9 @@ export default {
     },
     ActionSetMiniStateLeft({ commit }, payload) {
       commit("SET_MINISTATELEFT", payload);
+    },
+    ActionSetSizePanel({ commit }, payload) {
+      commit("SET_SIZEPANEL", payload);
     },
   },
 };

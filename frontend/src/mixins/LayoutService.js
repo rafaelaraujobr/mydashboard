@@ -5,9 +5,15 @@ export default {
       "ActionSetDrawerLeft",
       "ActionSetDrawerRight",
       "ActionSetMiniStateLeft",
+      "ActionSetSizePanel",
     ]),
   },
   computed: {
-    ...mapGetters("Layout", ["drawerLeft", "drawerRight", "miniStateLeft"]),
+    ...mapGetters("Layout", [
+      "drawerLeft",
+      "drawerRight",
+      "miniStateLeft",
+      "sizePanel",
+    ]),
   },
 };

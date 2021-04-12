@@ -15,9 +15,14 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
+    "gridstack": "^4.1.0",
+    "interactjs": "^1.10.11",
     "quasar": "^1.0.0",
     "vue": "^2.6.11",
+    "vue-drag-resize": "^1.5.1",
+    "vue-grid-layout": "^2.3.12",
     "vue-router": "^3.2.0",
+    "vuedraggable": "^2.24.3",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

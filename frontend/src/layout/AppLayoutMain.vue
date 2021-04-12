@@ -4,12 +4,10 @@
     <app-footer />
     <q-drawer
       v-model="drawerLeft"
-      show-if-above
       :mini="miniStateLeft"
       @mouseover="ActionSetMiniStateLeft(false)"
       @mouseout="ActionSetMiniStateLeft(true)"
       bordered
-      content-class="bg-grey-1"
     >
       <app-menu />
     </q-drawer>
@@ -18,11 +16,11 @@
       side="right"
       v-model="drawerRight"
       bordered
-      content-class="bg-grey-1"
     >
     </q-drawer>
 
     <q-page-container>
+      <q-resize-observer @resize="onResize" />
       <router-view />
     </q-page-container>
   </q-layout>
@@ -37,6 +35,11 @@ export default {
   name: "AppLayoutMain",
   mixins: [LayoutService],
   components: { AppHeader, AppMenu, AppFooter },
+  methods: {
+    onResize(size) {
+      this.ActionSetSizePanel(size);
+    },
+  },
 };
 </script>
 
