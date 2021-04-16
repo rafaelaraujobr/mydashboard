@@ -15,6 +15,7 @@
     :style="styleGrid"
     ref="grid"
     :cols="{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }"
+    :breakpoint="{ lg: 1439, md: 1023, sm: 599, xs: 480, xxs: 0 }"
   >
     <q-resize-observer @resize="onResize" />
     <span class="absolute-center">{{ sizePanel }}</span>
@@ -57,12 +58,15 @@
 
 <script>
 import { uid } from "quasar";
-import { dom } from "quasar";
-const { offset } = dom;
 import { GridLayout, GridItem } from "vue-grid-layout";
 import LayoutService from "@/mixins/LayoutService";
+
+const layoutStorange = JSON.parse(localStorage.getItem("app-layout"))
+  ? JSON.parse(localStorage.getItem("app-layout"))
+  : { lg: [], md: [], sm: [], xs: [], xxs: [] };
+
 export default {
-  name: "Grid",
+  name: "Panel",
   mixins: [LayoutService],
   components: {
     GridLayout,
@@ -70,7 +74,8 @@ export default {
   },
   data() {
     return {
-      layouts: {lg: [], md: []},
+      layouts: layoutStorange,
+      layout: [],
       responsive: true,
       draggable: true,
       resizable: true,
@@ -78,7 +83,7 @@ export default {
       rowHeight: 150,
       styleGrid: "{}",
       sizeGrid: "{}",
-      breakpoint: "lg",
+      breakpoint: "",
       modelItemGrid: {
         w: 1,
         h: 1,
@@ -98,21 +103,18 @@ export default {
       this.rowHeight = (this.$q.screen.height - 105 - 38) / this.maxRows;
     },
     onResize(size) {
-      console.log(size);
       this.sizeGrid = size;
+      console.log("width =>", this.$q.screen.width);
     },
     breakpointChangedEvent(newBreakpoint, newLayout) {
-      console.log(
-        "BREAKPOINT CHANGED breakpoint=",
-        newBreakpoint,
-        ", layout: ",
-        newLayout
-      );
       this.breakpoint = newBreakpoint;
       this.layout = newLayout;
       this.initGrid();
+      console.log("gridBreakpoint =>", newBreakpoint, this.$q.screen.width);
+      // console.log("quasarBreakpoint =>", this.$q.screen.name);
     },
     layoutUpdatedEvent() {
+      this.layouts[this.breakpoint] = this.layout;
       localStorage.setItem("app-layout", JSON.stringify(this.layouts));
     },
     getPositionMouse(evt) {
@@ -124,36 +126,27 @@ export default {
       this.modelItemGrid.y = Math.trunc(
         (evt.clientY - positionGrid.y) / this.rowHeight
       );
-      console.log(JSON.stringify(this.modelItemGrid));
     },
     addItem() {
-      this.layouts.lg.push({
-        ...this.modelItemGrid,
-        i: uid(),
+      Object.keys(this.layouts).forEach((item) => {
+        this.layouts[item].push({
+          ...this.modelItemGrid,
+          i: uid(),
+        });
       });
-      this.layouts.md.push({
-        ...this.modelItemGrid,
-        i: uid(),
-      });
+      this.layout = this.layouts[this.breakpoint];
     },
     removeItem(val) {
-      const indexLg = this.layouts.lg.map((item) => item.i).indexOf(val);
-      const indexMd = this.layouts.md.map((item) => item.i).indexOf(val);
-      this.layouts.lg.splice(indexLg, 1);
-      this.layouts.md.splice(indexMd, 1);
+      Object.keys(this.layouts).forEach((item) => {
+        let index = this.layouts[item].map((item) => item.i).indexOf(val);
+        this.layouts[item].splice(index, 1);
+      });
+      this.layout = this.layouts[this.breakpoint];
     },
   },
-  computed: {
-    layout() {
-      return this.layouts[this.breakpoint];
-    },
-    layoutInit() {
-      return JSON.parse(localStorage.getItem("app-layout"));
-    },
-  },
+  computed: {},
   created() {
-    this.layouts = this.layoutInit ? this.layoutInit : { lg: [], md: [] };
-    this.layout = this.layouts["lg"];
+    this.layout = this.layouts[this.$q.screen.name];
   },
   mounted() {
     this.setStyleGrid();
